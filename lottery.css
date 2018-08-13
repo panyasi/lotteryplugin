@@ -19,3 +19,7 @@ html,body{
 	border-radius: 5px;
     font-size: 0;
 }
+.lottery_item.active{
+    background: #fff;
+    color: #000;
+}

@@ -179,7 +179,8 @@ class lotteryCard{
             }
             if(this.step < total){
                 lotteryItems[(this.step+length) % length].setAttribute('class','lottery_item active')
-                this.step ++;  
+                this.step ++; 
+                console.log(this.step) 
             }else{
                 console.log(random,"random")
                 lotteryItems[random-1].setAttribute('class','lottery_item active')
@@ -197,3 +198,4 @@ var Card = new lotteryCard({
     loop: 3,
     speed: 90,
 });
+// this.step > (loop - 1) * length + random ? speed += 177 :speed
