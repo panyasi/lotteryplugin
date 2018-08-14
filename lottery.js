@@ -17,6 +17,7 @@ class lotteryCard{
         this.lotteryItems = null;//存储所要循环的元素
         this.lotteryBegin = null;//存储开始按钮元素
         this.step = 0;//当前位置
+        this.random = Math.floor(Math.random()*7)//生成0-7随机数
         //定义容器及组件的样式
         this.lotteryCardStyle = `#${this.state.containerId}{
             display: flex;
@@ -92,7 +93,6 @@ class lotteryCard{
             let required   = propTypes[val].split('.')[1];
             //验证当前参数是否必传
             let isRequired = required  === 'isRequired' ? true : false;
-            console.log(isRequired)
             //验证当前类型与规则类型是否相等
             let isPropType = propsType === typeof this.state[val] ? true : false;
             //类型错误抛出异常值
@@ -136,7 +136,7 @@ class lotteryCard{
         tmpArrLotteryItems[6] = arrLotteryItems[5];
         tmpArrLotteryItems[7] = arrLotteryItems[3];
         this.lotteryItems = tmpArrLotteryItems;
-        console.log(this.lotteryItems)
+        // console.log(this.lotteryItems)
         this.lotteryBegin.addEventListener('click',this._settle.bind(this));//绑定事件
 
     }
@@ -155,7 +155,7 @@ class lotteryCard{
         // 把style标签插入head标签
         this._appendChild($('head'),style);
     }
-    _settle(num){
+    _settle(){
         let isLock = this.isLock;
         if(isLock){
           return
@@ -163,32 +163,29 @@ class lotteryCard{
             this.isLock = true;
         }
         let lotteryItems = this.lotteryItems
-        let random = Math.floor(Math.random()*8+1);//生成1~8的随机整数
+        let random = this.random;
         let length = this.lotteryItems.length;//一圈所走的长度
-        console.log(this.step)
         let loop = this.state.loop;
         let speed = this.state.speed;
         let total = loop * length + random;
-        let newspeed = null;
-        console.log(random,total);
         let step = this.step;
-        let timer = setInterval(() =>{
-            let newspeed = null;
+        let timer = setTimeout(() =>{
             for(let i = 0;i<length;i++){
                 lotteryItems[i].setAttribute('class','lottery_item')
             }
             if(this.step < total){
                 lotteryItems[(this.step+length) % length].setAttribute('class','lottery_item active')
                 this.step ++; 
-                console.log(this.step) 
+                this.isLock = false;
+                this._settle();
             }else{
-                console.log(random,"random")
-                lotteryItems[random-1].setAttribute('class','lottery_item active')
-                clearInterval(timer);
-                this.step = 0;
-                this.isLock = false
-            } 
-        },this.step > (loop - 1) * length + random ? speed += 177 :speed)
+                lotteryItems[random].setAttribute('class','lottery_item active')
+                clearTimeout(timer);
+                this.step = 0;  
+                this.isLock = false;
+            }
+            // console.log(this.step,this.step > (loop - 1) * length + random ? speed += 300 :speed)
+        },this.step > (loop - 1) * length + random ? speed += 300 :speed)
     }
 }
 var Card = new lotteryCard({

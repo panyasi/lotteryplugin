@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>demo</title>
+</head>
+<body>
+	<p>setTimeout实现计时器效果</p>
+    <input type="text"id="txt">
+    
+	<script type="text/javascript">
+		// var t=1000;
+  //       function timer(){
+  //           document.getElementById("txt").value=t;
+  //           t += t;
+  //           setTimeout("timer()",t);
+  //       }
+  //       timer();
+  	var count = 0;
+    var timer = null;
+    function move() {
+        //每一次执行move方法都会重新创建一个新的setTimeout定时器，定时器执行一次就不在重新的执行了，但是我们并没有把它清除掉，导致了很多没用的定时器累计，占内存->在每一次执行move进来的第一件事情就是把上一次没用的那个定时器清除掉
+        window.clearTimeout(timer);
+        count++;
+        console.log(count);
+        if (count===10) {
+            return;
+        }
+        //arguments.callee->存储的是当前函数本身，等价于move
+        timer = window.setTimeout(arguments.callee,1000);
+    }
+    move();
+	</script>
+</body>
+</html>
