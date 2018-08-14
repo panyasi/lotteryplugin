@@ -30,6 +30,7 @@ class lotteryCard{
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
             width: 100px;
             height: 100px;
             list-style: none;
@@ -40,11 +41,11 @@ class lotteryCard{
             font-size: 16px;
             color: #fff;
             line-height: 22px;
-        }`
-        this.lotteryItemsStyleActive = `.lottery_item.active {
+        }`;
+        this.lotteryItemsStyleActive = `.lottery_item.active{
             background: #fff;
             color: #333;
-        }`
+        }`;
         this.lotteryBeginStyle = `#lottery_begin{
             display: flex;
             justify-content: center;
@@ -59,7 +60,16 @@ class lotteryCard{
             font-size: 16px;
             color: #fff;
             line-height: 22px;
-            `
+        }`;
+        this.canvasKlass = `.canvasKlass{
+            position: absolute;
+            background: #333;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            bottom: 0;
+        }`
+
         // 静态方法
 
         //用于选择DOM
@@ -136,7 +146,7 @@ class lotteryCard{
         tmpArrLotteryItems[6] = arrLotteryItems[5];
         tmpArrLotteryItems[7] = arrLotteryItems[3];
         this.lotteryItems = tmpArrLotteryItems;
-        // console.log(this.lotteryItems)
+        console.log(this.lotteryItems)
         this.lotteryBegin.addEventListener('click',this._settle.bind(this));//绑定事件
 
     }
@@ -149,6 +159,7 @@ class lotteryCard{
                             ${this.lotteryItemsStyle}
                             ${this.lotteryBeginStyle}
                             ${this.lotteryItemsStyleActive}
+                            ${this.canvasKlass}
                             `;
         // 字符串插入style标签
         this._setContent(style,styleContent);
@@ -179,7 +190,7 @@ class lotteryCard{
                 this.isLock = false;
                 this._settle();
             }else{
-                lotteryItems[random].setAttribute('class','lottery_item active')
+                lotteryItems[random].setAttribute('class','lottery_item active');
                 clearTimeout(timer);
                 this.step = 0;  
                 this.isLock = false;
